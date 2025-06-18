@@ -84,11 +84,11 @@
       return `
       ${day}.${months[month]}.${year} ${hours}:${minutes}`;
     }
-    const date = fullDate(new Date());
     
     buttonEl.addEventListener('click', (e) => {
       nameEl.classList.remove("error");
       textEl.classList.remove("error");
+      const date = fullDate(new Date());
 
       if (nameEl.value === "" || textEl.value === "") {
         nameEl.classList.add("error");
