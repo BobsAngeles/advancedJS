@@ -8,11 +8,11 @@
 
   <body>
     <div class="container">
-      <ul class="comments">
+      <ul class="comments" id="commentsList">
         <li class="comment">
           <div class="comment-header">
             <div>Глеб Фокин</div>
-            <div>12.02.22 12:18</div>
+            <div>12.02.25 12:18</div>
           </div>
           <div class="comment-body">
             <div class="comment-text">
@@ -29,7 +29,7 @@
         <li class="comment">
           <div class="comment-header">
             <div>Варвара Н.</div>
-            <div>13.02.22 19:22</div>
+            <div>13.02.25 19:22</div>
           </div>
           <div class="comment-body">
             <div class="comment-text">
@@ -38,7 +38,7 @@
           </div>
           <div class="comment-footer">
             <div class="likes">
-              <span class="likes-counter">75</span>
+              <span class="likes-counter" id="likes">75</span>
               <button class="like-button -active-like"></button>
             </div>
           </div>
@@ -49,15 +49,17 @@
           type="text"
           class="add-form-name"
           placeholder="Введите ваше имя"
+          id = "name"
         />
         <textarea
           type="textarea"
           class="add-form-text"
           placeholder="Введите ваш коментарий"
+          id = "text"
           rows="4"
         ></textarea>
         <div class="add-form-row">
-          <button class="add-form-button">Написать</button>
+          <button class="add-form-button" id = "add">Написать</button>
         </div>
       </div>
     </div>
@@ -65,7 +67,55 @@
 
   <script>
     "use strict";
-    // Код писать здесь
-    console.log("It works!");
+    const nameEl = document.getElementById('name');
+    const textEl = document.getElementById('text');
+    const buttonEl = document.getElementById('add');
+    const commentsListEl = document.getElementById('commentsList');
+    const likeEl = document.getElementById('likes');
+
+
+    function fullDate (myDate) { 
+      const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];   
+      const minutes = myDate.getMinutes();
+      const hours = myDate.getHours();
+      const day = myDate.getDate();
+      const month = myDate.getMonth();
+      const year = myDate.getFullYear();
+      return `
+      ${day}.${months[month]}.${year} ${hours}:${minutes}`;
+    }
+    
+    buttonEl.addEventListener('click', (e) => {
+      nameEl.classList.remove("error");
+      textEl.classList.remove("error");
+      const date = fullDate(new Date());
+
+      if (nameEl.value === "" || textEl.value === "") {
+        nameEl.classList.add("error");
+        textEl.classList.add("error");
+        return;        
+      }
+      const baseCommentsList = commentsListEl.innerHTML;
+      commentsListEl.innerHTML = baseCommentsList + `
+      <li class="comment">
+          <div class="comment-header">
+            <div>${nameEl.value}</div>
+            <div>${date}</div>
+          </div>
+          <div class="comment-body">
+            <div class="comment-text">
+              ${textEl.value}
+            </div>
+          </div>
+          <div class="comment-footer">
+            <div class="likes">
+              <span class="likes-counter">0</span>
+              <button class="like-button"></button>
+            </div>
+          </div>
+        </li>`
+        nameEl.value = "";
+        textEl.value = "";
+    })
   </script>
 </html>
